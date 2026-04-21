@@ -20,8 +20,8 @@ on:
 
 env:
   EXPERIMENT_NAME: kto-titanic
-  EXPERIMENT_IMAGE_NAME: quay.io/kto_gthomas/titanic/experiment
-  API_IMAGE_NAME: quay.io/kto_gthomas/titanic/api
+  EXPERIMENT_IMAGE_NAME: quay.io/bribzz/titanic/experiment
+  API_IMAGE_NAME: quay.io/bribzz/titanic/api
   API_ROUTE_NAME: titanic-api
   DAILYCLEAN_ROUTE_NAME: dailyclean
   MINIO_API_ROUTE_NAME: minio-api
@@ -92,6 +92,10 @@ jobs:
           uv run mlflow artifacts download --artifact-uri $ARTIFACT_URI -d ./src/titanic/api/resources/
 
           # could be : uv run mlflow artifacts download -r $MLFLOW_RUN_ID -a model.pkl -d ./src/titanic/api/resources/
+      - name: Build and push api image
+        run: |
+          docker build -f k8s/api/Dockerfile -t ${{ env.API_IMAGE_NAME }}:latest .
+          docker push ${{ env.API_IMAGE_NAME }}:latest
       - name: Asleep kto-mlflow with dailyclean
         run: |
           curl -X POST $DAILYCLEAN_ROUTE_URL/pods/stop
