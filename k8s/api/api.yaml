@@ -17,7 +17,7 @@ spec:
           image: quay.io/bribzz/titanic/api:latest
           env:
             - name: JAEGER_ENDPOINT
-              value: "http://jaeger.kto-bribzz-dev.svc.cluster.local:4318/v1/traces"
+              value: "http://jaeger.bribzz-dev.svc.cluster.local:4318/v1/traces"
             - name: OAUTH2_DOMAIN
               value: "PLACEHOLDER_OAUTH2_DOMAIN"
             - name: OAUTH2_JWT_AUDIENCE
@@ -57,5 +57,3 @@ spec:
     targetPort: http-port
   tls:
     termination: edge
-    insecureEdgeTerminationPolicy: None
-  wildcardPolicy: None
